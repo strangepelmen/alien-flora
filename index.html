@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Чужая флора • Атлас инвазивных растений Минска</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌿</text></svg>">
+</head>
+<body>
+    <!-- Фоновые анимированные эмодзи -->
+    <div class="emoji-background"></div>
+    
+    <!-- Навигация -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#home" class="nav-logo">
+                <div class="logo-icon">🌿</div>
+                <div class="logo-text">
+                    <span class="logo-title">Чужая флора</span>
+                    <span class="logo-subtitle">Инвазивные растения Минска</span>
+                </div>
+            </a>
+            
+            <button class="nav-toggle" id="navToggle" aria-label="Меню">
+                <span class="burger-line"></span>
+                <span class="burger-line"></span>
+                <span class="burger-line"></span>
+            </button>
+            
+            <div class="nav-overlay" id="navOverlay"></div>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#home" class="nav-link active">Главная</a></li>
+                <li><a href="#catalog" class="nav-link">Каталог</a></li>
+                <li><a href="#identifier" class="nav-link">Определитель</a></li>
+                <li><a href="#action" class="nav-link">Что делать?</a></li>
+                <li class="nav-theme-item">
+                    <div class="mobile-theme-switch">
+                        <span>Тема:</span>
+                        <button class="theme-switch" id="mobileThemeSwitch" aria-label="Переключить тему">
+                            <div class="switch-handle">
+                                <i class="fas fa-sun"></i>
+                                <i class="fas fa-moon"></i>
+                            </div>
+                        </button>
+                    </div>
+                </li>
+            </ul>
+            
+            <!-- Десктопный переключатель темы -->
+            <div class="desktop-theme-switch">
+                <button class="theme-switch" id="desktopThemeSwitch" aria-label="Переключить тему">
+                    <div class="switch-handle">
+                        <i class="fas fa-sun"></i>
+                        <i class="fas fa-moon"></i>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Главная страница -->
+    <section id="home" class="page active">
+        <div class="page-container">
+            <div class="hero">
+                <div class="hero-content">
+                    <div class="hero-tag">Экологический проект</div>
+                    <h1 class="hero-title">Каждый пятый вид в&nbsp;Минске&nbsp;— <span class="highlight">пришелец</span></h1>
+                    <p class="hero-text">Интерактивный атлас инвазивных растений столицы — от научных данных до практических руководств по борьбе с зелёными захватчиками.</p>
+                    <div class="hero-buttons">
+                        <a href="#catalog" class="btn btn-primary catalog-link">
+                            <span>Изучить каталог</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                        <a href="#identifier" class="btn btn-secondary identifier-link">
+                            <span>Определить растение</span>
+                            <i class="fas fa-search"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="hero-illustration">
+                    <div class="illustration-container">
+                        <div class="plant-group">
+                            <div class="plant-1">🌿</div>
+                            <div class="plant-2">🌱</div>
+                            <div class="plant-3">🍃</div>
+                            <div class="plant-4">🌾</div>
+                            <div class="plant-5">🌻</div>
+                            <div class="plant-6">🌸</div>
+                            <div class="plant-7">🌺</div>
+                        </div>
+                        <div class="illustration-frame">
+                            <div class="frame-content">
+                                <div class="floating-leaf">🍂</div>
+                                <div class="floating-seed">🌰</div>
+                                <div class="floating-petal">🌸</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="quick-actions">
+                <h3 class="section-title">Быстрые действия</h3>
+                <div class="actions-grid">
+                    <a href="#catalog" class="action-card critical-link">
+                        <div class="action-icon critical">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="action-content">
+                            <h4>Самые опасные</h4>
+                            <p>Растения, требующие немедленного реагирования</p>
+                            <div class="action-arrow">→</div>
+                        </div>
+                    </a>
+                    
+                    <a href="#identifier" class="action-card identify-link">
+                        <div class="action-icon identify">
+                            <i class="fas fa-seedling"></i>
+                        </div>
+                        <div class="action-content">
+                            <h4>Определить растение</h4>
+                            <p>Помощник для идентификации видов</p>
+                            <div class="action-arrow">→</div>
+                        </div>
+                    </a>
+                    
+                    <a href="#action" class="action-card report-link">
+                        <div class="action-icon report">
+                            <i class="fas fa-flag"></i>
+                        </div>
+                        <div class="action-content">
+                            <h4>Сообщить о находке</h4>
+                            <p>Инструкции и контакты для информирования</p>
+                            <div class="action-arrow">→</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="stats-section">
+                <div class="stats-container">
+                    <div class="stat-item">
+                        <div class="stat-number">35</div>
+                        <div class="stat-label">видов растений</div>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-item">
+                        <div class="stat-number">5</div>
+                        <div class="stat-label">категорий опасности</div>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-item">
+                        <div class="stat-number">100+</div>
+                        <div class="stat-label">методов борьбы</div>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-item">
+                        <div class="stat-number">7</div>
+                        <div class="stat-label">районов Минска</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Футер для главной страницы -->
+        <footer class="site-footer"></footer>
+    </section>
+
+    <!-- Каталог -->
+    <section id="catalog" class="page">
+        <div class="page-container">
+            <div class="page-header">
+                <div class="header-decoration">
+                    <div class="decoration-line"></div>
+                    <div class="decoration-icon">📚</div>
+                    <div class="decoration-line"></div>
+                </div>
+                <h2 class="page-title">Каталог видов</h2>
+                <p class="page-subtitle">База данных инвазивных растений Минска</p>
+            </div>
+            
+            <div class="catalog-toolbar">
+                <div class="search-container">
+                    <div class="search-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <input type="text" id="plantSearch" placeholder="Поиск по названию или описанию...">
+                    <div class="search-clear" id="searchClear">
+                        <i class="fas fa-times"></i>
+                    </div>
+                </div>
+                
+                <div class="filter-tags">
+                    <button class="filter-tag active" data-filter="all">Все</button>
+                    <button class="filter-tag" data-filter="tree">
+                        <i class="fas fa-tree"></i>
+                        <span>Деревья</span>
+                    </button>
+                    <button class="filter-tag" data-filter="shrub">
+                        <i class="fas fa-seedling"></i>
+                        <span>Кустарники</span>
+                    </button>
+                    <button class="filter-tag" data-filter="herb">
+                        <i class="fas fa-leaf"></i>
+                        <span>Травы</span>
+                    </button>
+                    <button class="filter-tag" data-filter="vine">
+                        <i class="fas fa-vine"></i>
+                        <span>Лианы</span>
+                    </button>
+                    <button class="filter-tag" data-filter="critical">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span>Критичные</span>
+                    </button>
+                </div>
+            </div>
+            
+            <div id="plantCatalog" class="catalog-grid">
+                <!-- Динамически заполняется через JavaScript -->
+            </div>
+            
+            <div id="noResults" class="no-results" style="display: none;">
+                <div class="no-results-icon">🌱</div>
+                <h3>Растения не найдены</h3>
+                <p>Попробуйте изменить параметры поиска или фильтрации</p>
+            </div>
+        </div>
+        <!-- Футер для каталога -->
+        <footer class="site-footer"></footer>
+    </section>
+
+    <!-- Определитель -->
+    <section id="identifier" class="page">
+        <div class="page-container">
+            <div class="page-header">
+                <div class="header-decoration">
+                    <div class="decoration-line"></div>
+                    <div class="decoration-icon">🔍</div>
+                    <div class="decoration-line"></div>
+                </div>
+                <h2 class="page-title">Определитель растений</h2>
+                <p class="page-subtitle">Пошаговый помощник для идентификации</p>
+            </div>
+            
+            <div class="identifier-container">
+                <div class="identifier-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <div class="progress-steps">
+                        <div class="progress-step active" data-step="1">
+                            <div class="step-number">1</div>
+                            <div class="step-label">Тип</div>
+                        </div>
+                        <div class="progress-step" data-step="2">
+                            <div class="step-number">2</div>
+                            <div class="step-label">Сезон</div>
+                        </div>
+                        <div class="progress-step" data-step="3">
+                            <div class="step-number">3</div>
+                            <div class="step-label">Место</div>
+                        </div>
+                        <div class="progress-step" data-step="4">
+                            <div class="step-number">4</div>
+                            <div class="step-label">Признаки</div>
+                        </div>
+                        <div class="progress-step" data-step="5">
+                            <div class="step-number">5</div>
+                            <div class="step-label">Результат</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="identifier-content">
+                    <!-- Шаг 1 -->
+                    <div class="step-panel active" id="step1">
+                        <div class="step-header">
+                            <h3>Тип растения</h3>
+                            <p>Выберите тип растения, которое вы обнаружили</p>
+                        </div>
+                        <div class="options-grid">
+                            <div class="option-card" data-value="tree">
+                                <div class="option-icon">
+                                    <i class="fas fa-tree"></i>
+                                </div>
+                                <h4>Дерево</h4>
+                                <p>Высокое растение с одним стволом</p>
+                            </div>
+                            <div class="option-card" data-value="shrub">
+                                <div class="option-icon">
+                                    <i class="fas fa-seedling"></i>
+                                </div>
+                                <h4>Кустарник</h4>
+                                <p>Растение с несколькими стеблями</p>
+                            </div>
+                            <div class="option-card" data-value="herb">
+                                <div class="option-icon">
+                                    <i class="fas fa-leaf"></i>
+                                </div>
+                                <h4>Трава</h4>
+                                <p>Травянистое растение без ствола</p>
+                            </div>
+                            <div class="option-card" data-value="vine">
+                                <div class="option-icon">
+                                    <i class="fas fa-vine"></i>
+                                </div>
+                                <h4>Лиана</h4>
+                                <p>Вьющееся или лазящее растение</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Шаг 2 -->
+                    <div class="step-panel" id="step2">
+                        <div class="step-header">
+                            <h3>Время года</h3>
+                            <p>Когда вы увидели растение?</p>
+                        </div>
+                        <div class="options-grid">
+                            <div class="option-card" data-value="spring">
+                                <div class="option-icon">
+                                    <i class="fas fa-cloud-sun"></i>
+                                </div>
+                                <h4>Весна</h4>
+                                <p>Апрель - май</p>
+                            </div>
+                            <div class="option-card" data-value="summer">
+                                <div class="option-icon">
+                                    <i class="fas fa-sun"></i>
+                                </div>
+                                <h4>Лето</h4>
+                                <p>Июнь - август</p>
+                            </div>
+                            <div class="option-card" data-value="autumn">
+                                <div class="option-icon">
+                                    <i class="fas fa-wind"></i>
+                                </div>
+                                <h4>Осень</h4>
+                                <p>Сентябрь - октябрь</p>
+                            </div>
+                            <div class="option-card" data-value="winter">
+                                <div class="option-icon">
+                                    <i class="fas fa-snowflake"></i>
+                                </div>
+                                <h4>Зима</h4>
+                                <p>Ноябрь - март</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Шаг 3 -->
+                    <div class="step-panel" id="step3">
+                        <div class="step-header">
+                            <h3>Место обнаружения</h3>
+                            <p>Где растёт растение?</p>
+                        </div>
+                        <div class="options-grid">
+                            <div class="option-card" data-value="wasteland">
+                                <div class="option-icon">
+                                    <i class="fas fa-mountain"></i>
+                                </div>
+                                <h4>Пустырь</h4>
+                                <p>Заброшенные территории</p>
+                            </div>
+                            <div class="option-card" data-value="forest">
+                                <div class="option-icon">
+                                    <i class="fas fa-tree"></i>
+                                </div>
+                                <h4>Лес/парк</h4>
+                                <p>Лесные массивы, парки</p>
+                            </div>
+                            <div class="option-card" data-value="water">
+                                <div class="option-icon">
+                                    <i class="fas fa-water"></i>
+                                </div>
+                                <h4>Берег водоёма</h4>
+                                <p>Реки, озёра, пруды</p>
+                            </div>
+                            <div class="option-card" data-value="lawn">
+                                <div class="option-icon">
+                                    <i class="fas fa-road"></i>
+                                </div>
+                                <h4>Газон/обочина</h4>
+                                <p>Газоны, обочины дорог</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Шаг 4 -->
+                    <div class="step-panel" id="step4">
+                        <div class="step-header">
+                            <h3>Ключевые признаки</h3>
+                            <p>Выберите признаки, которые вы заметили (можно несколько)</p>
+                        </div>
+                        <div class="options-grid multi-select">
+                            <div class="option-card" data-value="white_flowers">
+                                <div class="option-icon">
+                                    <i class="fas fa-circle" style="color: #f8f9fa;"></i>
+                                </div>
+                                <h4>Белые цветы</h4>
+                            </div>
+                            <div class="option-card" data-value="yellow_flowers">
+                                <div class="option-icon">
+                                    <i class="fas fa-circle" style="color: #ffd43b;"></i>
+                                </div>
+                                <h4>Жёлтые цветы</h4>
+                            </div>
+                            <div class="option-card" data-value="pink_flowers">
+                                <div class="option-icon">
+                                    <i class="fas fa-circle" style="color: #f783ac;"></i>
+                                </div>
+                                <h4>Розовые цветы</h4>
+                            </div>
+                            <div class="option-card" data-value="large_leaves">
+                                <div class="option-icon">
+                                    <i class="fas fa-leaf" style="color: #40c057;"></i>
+                                </div>
+                                <h4>Крупные листья</h4>
+                            </div>
+                            <div class="option-card" data-value="thorny">
+                                <div class="option-icon">
+                                    <i class="fas fa-thumbtack"></i>
+                                </div>
+                                <h4>Колючки/шипы</h4>
+                            </div>
+                            <div class="option-card" data-value="tall">
+                                <div class="option-icon">
+                                    <i class="fas fa-long-arrow-alt-up"></i>
+                                </div>
+                                <h4>Высокое</h4>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Шаг 5 -->
+                    <div class="step-panel" id="step5">
+                        <div class="step-header">
+                            <h3>Результаты определения</h3>
+                            <p>Вот растения, которые соответствуют вашим критериям:</p>
+                        </div>
+                        <div id="identificationResults" class="results-container">
+                            <!-- Результаты будут загружены здесь -->
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="identifier-controls">
+                    <button class="btn btn-outline" id="prevStep">
+                        <i class="fas fa-arrow-left"></i>
+                        <span>Назад</span>
+                    </button>
+                    <button class="btn btn-primary" id="nextStep">
+                        <span>Далее</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                    <button class="btn btn-text" id="resetIdentifier">
+                        <i class="fas fa-redo"></i>
+                        <span>Начать заново</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Футер для определителя -->
+        <footer class="site-footer"></footer>
+    </section>
+
+    <!-- Что делать? -->
+    <section id="action" class="page">
+        <div class="page-container">
+            <div class="page-header">
+                <div class="header-decoration">
+                    <div class="decoration-line"></div>
+                    <div class="decoration-icon">📋</div>
+                    <div class="decoration-line"></div>
+                </div>
+                <h2 class="page-title">Что делать?</h2>
+                <p class="page-subtitle">Алгоритмы действий для разных ситуаций</p>
+            </div>
+            
+            <div class="scenarios-tabs">
+                <div class="tabs-container">
+                    <button class="tab-btn active" data-tab="garden">
+                        <i class="fas fa-home"></i>
+                        <span>На участке</span>
+                    </button>
+                    <button class="tab-btn" data-tab="yard">
+                        <i class="fas fa-building"></i>
+                        <span>Во дворе</span>
+                    </button>
+                    <button class="tab-btn" data-tab="park">
+                        <i class="fas fa-tree"></i>
+                        <span>В парке</span>
+                    </button>
+                    <button class="tab-btn" data-tab="replace">
+                        <i class="fas fa-seedling"></i>
+                        <span>Чем заменить?</span>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="scenarios-content">
+                <!-- На дачном участке -->
+            <div class="tab-content active" id="gardenContent">
+                <div class="scenario-header">
+                    <h3>Борьба на собственном участке</h3>
+                    <p>Пошаговая инструкция по безопасному уничтожению инвазивных растений</p>
+                </div>
+                
+                <div class="steps-timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-number">1</div>
+                        <div class="timeline-content">
+                            <h4>Идентификация</h4>
+                            <p>Точно определите вид растения с помощью нашего определителя.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-number">2</div>
+                        <div class="timeline-content">
+                            <h4>Подготовка</h4>
+                            <p>Наденьте защитную одежду. Для борщевика нужен полный защитный костюм.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-number">3</div>
+                        <div class="timeline-content">
+                            <h4>Уничтожение</h4>
+                            <p>Выберите метод: механический, химический или агротехнический.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-number">4</div>
+                        <div class="timeline-content">
+                            <h4>Утилизация</h4>
+                            <p>Сожгите или высушите растения. Не выбрасывайте в компост.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-number">5</div>
+                        <div class="timeline-content">
+                            <h4>Контроль</h4>
+                            <p>Регулярно осматривайте участок в течение 3-5 лет.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="method-demonstration">
+                    <h4>Примеры методов борьбы:</h4>
+                    <div class="method-examples">
+                        <div class="method-example">
+                            <div class="method-icon mechanical">
+                                <i class="fas fa-shovel"></i>
+                            </div>
+                            <h5>Механический метод</h5>
+                            <p>Выкапывание растений с корнями с помощью лопаты и граблей.</p>
+                        </div>
+                        <div class="method-example">
+                            <div class="method-icon chemical">
+                                <i class="fas fa-flask"></i>
+                            </div>
+                            <h5>Химический метод</h5>
+                            <p>Применение гербицидов строго по инструкции производителя.</p>
+                        </div>
+                        <div class="method-example">
+                            <div class="method-icon agro">
+                                <i class="fas fa-tractor"></i>
+                            </div>
+                            <h5>Агротехнический метод</h5>
+                            <p>Высадка конкурирующих растений или залужение территории.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                
+                <!-- Во дворе дома -->
+                <div class="tab-content" id="yardContent">
+                    <div class="scenario-header">
+                        <h3>Действия во дворе многоквартирного дома</h3>
+                        <p>Кому и как правильно сообщать о находке инвазивных растений</p>
+                    </div>
+                    
+                    <div class="contacts-grid">
+                        <div class="contact-card">
+                            <div class="contact-header">
+                                <div class="contact-icon">
+                                    <i class="fas fa-home"></i>
+                                </div>
+                                <h4>ЖЭС / Управляющая компания</h4>
+                            </div>
+                            <p>Первичная инстанция для сообщения о растениях на придомовой территории.</p>
+                            <div class="contact-details">
+                                <div class="detail-item">
+                                    <i class="fas fa-file-alt"></i>
+                                    <span>Подготовьте фото растения и точный адрес</span>
+                                </div>
+                                <div class="detail-item">
+                                    <i class="fas fa-clock"></i>
+                                    <span>Срок реагирования: 5-10 рабочих дней</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-card">
+                            <div class="contact-header">
+                                <div class="contact-icon">
+                                    <i class="fas fa-leaf"></i>
+                                </div>
+                                <h4>Городская служба озеленения</h4>
+                            </div>
+                            <p>Организация, отвечающая за озеленение и содержание городских территорий.</p>
+                            <div class="contact-details">
+                                <div class="detail-item">
+                                    <i class="fas fa-envelope"></i>
+                                    <span>Отправьте заявку через официальный сайт</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-card">
+                            <div class="contact-header">
+                                <div class="contact-icon">
+                                    <i class="fas fa-shield-alt"></i>
+                                </div>
+                                <h4>Экологическая инспекция</h4>
+                            </div>
+                            <p>Контролирующий орган в сфере охраны окружающей среды.</p>
+                            <div class="contact-details">
+                                <div class="detail-item">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span>Обратитесь в районное отделение</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="report-instructions">
+                        <h4>Как правильно составить сообщение:</h4>
+                        <ol>
+                            <li>Сделайте четкие фотографии растения с разных ракурсов</li>
+                            <li>Зафиксируйте местоположение (адрес, ориентиры)</li>
+                            <li>Укажите примерное количество растений</li>
+                            <li>Опишите размер и состояние растений</li>
+                            <li>Укажите контакты для обратной связи</li>
+                        </ol>
+                    </div>
+                </div>
+                
+                <!-- В парке или заказнике -->
+                <div class="tab-content" id="parkContent">
+                    <div class="scenario-header">
+                        <h3>Обнаружение в природной зоне</h3>
+                        <p>Действия при обнаружении инвазивных растений в парках и заказниках</p>
+                    </div>
+                    
+                    <div class="warning-card">
+                        <div class="warning-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="warning-content">
+                            <h4>Важное предупреждение</h4>
+                            <p>Не пытайтесь самостоятельно удалять растения в природных зонах. Это может нарушить экосистему.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="instructions-list">
+                        <h4>Порядок действий:</h4>
+                        <ol>
+                            <li>Сфотографируйте растение, захватив ориентиры для определения местоположения.</li>
+                            <li>Определите вид растения с помощью нашего определителя.</li>
+                            <li>Сообщите о находке администрации парка/заказника.</li>
+                            <li>Укажите точные координаты (можно использовать геолокацию в телефоне).</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="contact-info-section">
+                        <h4>Контакты для минских парков:</h4>
+                        <div class="contact-items">
+                            <div class="contact-item">
+                                <i class="fas fa-park"></i>
+                                <div>
+                                    <strong>Минская городская инспекция природных ресурсов</strong>
+                                    <p>+375 (17) 311-20-91</p>
+                                </div>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-tree"></i>
+                                <div>
+                                    <strong>Администрации парков Минска</strong>
+                                    <p>Контакты доступны на сайте minsk.gov.by</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Чем заменить -->
+                <div class="tab-content" id="replaceContent">
+                    <div class="scenario-header">
+                        <h3>Безопасные альтернативы</h3>
+                        <p>Красивые местные растения, которые можно использовать вместо инвазивных видов</p>
+                    </div>
+                    
+                    <div class="alternatives-container">
+                        <div class="alternative-card">
+                            <div class="alternative-image">
+                                <div class="alternative-image-placeholder">
+                                    <i class="fas fa-tree"></i>
+                                    <p>Клён остролистный</p>
+                                </div>
+                            </div>
+                            <div class="alternative-content">
+                                <h4>Вместо клёна ясенелистного</h4>
+                                <p><strong>Клён остролистный</strong> — местный вид с красивой кроной, устойчив к городским условиям. Имеет яркую осеннюю окраску.</p>
+                                <div class="alternative-features">
+                                    <span class="feature-tag">Местный вид</span>
+                                    <span class="feature-tag">Устойчив к городским условиям</span>
+                                    <span class="feature-tag">Декоративная листва</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="alternative-card">
+                            <div class="alternative-image">
+                                <div class="alternative-image-placeholder">
+                                    <i class="fas fa-seedling"></i>
+                                    <p>Нивяник обыкновенный</p>
+                                </div>
+                            </div>
+                            <div class="alternative-content">
+                                <h4>Вместо золотарника канадского</h4>
+                                <p><strong>Нивяник обыкновенный</strong> — белые ромашки, цветут всё лето, привлекают полезных насекомых. Не вызывает аллергию.</p>
+                                <div class="alternative-features">
+                                    <span class="feature-tag">Долгое цветение</span>
+                                    <span class="feature-tag">Привлекает насекомых</span>
+                                    <span class="feature-tag">Гипоаллергенный</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="alternative-card">
+                            <div class="alternative-image">
+                                <div class="alternative-image-placeholder">
+                                    <i class="fas fa-leaf"></i>
+                                    <p>Дудник лекарственный</p>
+                                </div>
+                            </div>
+                            <div class="alternative-content">
+                                <h4>Вместо борщевика Сосновского</h4>
+                                <p><strong>Дудник лекарственный</strong> — местный зонтичный вид, не вызывает ожогов, имеет лекарственные свойства. Безопасен для детей и животных.</p>
+                                <div class="alternative-features">
+                                    <span class="feature-tag">Безопасен для кожи</span>
+                                    <span class="feature-tag">Лекарственное растение</span>
+                                    <span class="feature-tag">Местный вид</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="alternative-sources">
+                        <h4>Где найти саженцы местных растений:</h4>
+                        <ul>
+                            <li>Ботанический сад НАН Беларуси (продажа растений)</li>
+                            <li>Питомники декоративных растений в Минской области</li>
+                            <li>Специализированные садовые центры с отделом местной флоры</li>
+                            <li>Обмен растениями между садоводами</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Футер для страницы "Что делать?" -->
+        <footer class="site-footer"></footer>
+    </section>
+
+    <!-- Модальное окно -->
+    <div id="plantModal" class="modal">
+        <div class="modal-overlay"></div>
+        <div class="modal-container">
+            <button class="modal-close" aria-label="Закрыть">
+                <i class="fas fa-times"></i>
+            </button>
+            <div id="plantModalContent">
+                <!-- Динамически заполняется через JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
