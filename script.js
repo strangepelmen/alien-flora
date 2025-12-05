@@ -65,58 +65,78 @@ function createStaticEmojiBackground() {
     // Количество эмодзи на странице - меньше
     const emojiCount = window.innerWidth < 768 ? 8 : 12;
     
-    // Предопределенные безопасные позиции, чтобы эмодзи не попадали на контент
-    const safePositions = [];
+    // Минимальное расстояние между эмодзи (в процентах)
+    const minDistance = 10;
     
-    // Генерируем безопасные позиции (по краям экрана)
-    for (let i = 0; i < emojiCount; i++) {
-        let left, top;
-        
-        // Распределяем эмодзи по разным зонам: левый край, правый край, верх, низ
-        if (i % 4 === 0) {
-            // Левый край (5-15%)
-            left = 5 + Math.random() * 10;
-            top = 10 + Math.random() * 80;
-        } else if (i % 4 === 1) {
-            // Правый край (85-95%)
-            left = 85 + Math.random() * 10;
-            top = 10 + Math.random() * 80;
-        } else if (i % 4 === 2) {
-            // Верх (5-20%)
-            left = 20 + Math.random() * 60;
-            top = 5 + Math.random() * 15;
-        } else {
-            // Низ (75-90%)
-            left = 20 + Math.random() * 60;
-            top = 75 + Math.random() * 15;
-        }
-        
-        safePositions.push({ left, top });
-    }
+    // Массив для хранения позиций эмодзи
+    const placedEmojis = [];
     
     for (let i = 0; i < emojiCount; i++) {
         const emoji = document.createElement('div');
         emoji.className = 'background-emoji';
         emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
         
-        // Используем предопределенную безопасную позицию
-        const position = safePositions[i];
-        emoji.style.left = `${position.left}%`;
-        emoji.style.top = `${position.top}%`;
+        let attempts = 0;
+        let left, top;
+        let isPositionValid = false;
+        
+        // Пытаемся найти валидную позицию, не пересекающуюся с другими
+        while (!isPositionValid && attempts < 100) {
+            left = 5 + Math.random() * 90;
+            top = 5 + Math.random() * 85;
+            
+            // Проверяем расстояние до других эмодзи
+            isPositionValid = true;
+            for (const placed of placedEmojis) {
+                const distance = Math.sqrt(
+                    Math.pow(placed.left - left, 2) + 
+                    Math.pow(placed.top - top, 2)
+                );
+                
+                if (distance < minDistance) {
+                    isPositionValid = false;
+                    break;
+                }
+            }
+            
+            // Дополнительная проверка для верхней и нижней частей экрана
+            // Чтобы эмодзи не попадали на важный контент
+            if (isPositionValid) {
+                // Избегаем позиций по центру экрана (где обычно контент)
+                if (top > 25 && top < 75 && left > 30 && left < 70) {
+                    isPositionValid = Math.random() > 0.3; // 30% шанс разместить в центре
+                }
+            }
+            
+            attempts++;
+        }
+        
+        // Если не нашли валидную позицию, используем крайние зоны
+        if (!isPositionValid) {
+            left = Math.random() > 0.5 ? 5 + Math.random() * 15 : 80 + Math.random() * 15;
+            top = Math.random() > 0.5 ? 5 + Math.random() * 15 : 80 + Math.random() * 15;
+        }
+        
+        // Сохраняем позицию
+        placedEmojis.push({ left, top });
+        
+        // Применяем стили
+        emoji.style.left = `${left}%`;
+        emoji.style.top = `${top}%`;
         
         // Размер больше (от 28px до 42px)
         const size = 28 + Math.random() * 14;
         emoji.style.fontSize = `${size}px`;
         
-        // Случайная задержка анимации
-        emoji.style.animationDelay = `${Math.random() * 5}s`;
+        // Случайная задержка анимации от 0 до 15 секунд
+        emoji.style.animationDelay = `${Math.random() * 15}s`;
         
-        // Фиксированная длительность анимации (медленнее)
-        const duration = 10; // все одинаковые 10 секунд
+        // Случайная длительность анимации от 8 до 15 секунд
+        const duration = 8 + Math.random() * 7;
         emoji.style.animationDuration = `${duration}s`;
         
-        // Случайная прозрачность (более видимые в светлой теме)
-        const opacity = 0.05 + Math.random() * 0.07; // от 0.05 до 0.12 (было 0.02-0.06)
+        // Случайная прозрачность
+        const opacity = 0.05 + Math.random() * 0.07; // от 0.05 до 0.12
         emoji.style.opacity = opacity;
         
         // У всех эмодзи одинаковая анимация вверх-вниз

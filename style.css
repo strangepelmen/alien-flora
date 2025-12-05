@@ -1876,21 +1876,19 @@ a {
     justify-content: center;
     font-size: 1.5rem;
     margin: 0 auto var(--spacing-sm);
+    color: white;
 }
 
 .method-icon.mechanical {
-    background: linear-gradient(135deg, rgba(5, 150, 105, 0.15), rgba(5, 150, 105, 0.25));
-    color: var(--color-success);
+    background: linear-gradient(135deg, var(--color-success), #48bb78);
 }
 
 .method-icon.chemical {
-    background: linear-gradient(135deg, rgba(197, 48, 48, 0.15), rgba(197, 48, 48, 0.25));
-    color: var(--color-danger);
+    background: linear-gradient(135deg, var(--color-danger), #e53e3e);
 }
 
 .method-icon.agro {
-    background: linear-gradient(135deg, rgba(217, 119, 6, 0.15), rgba(217, 119, 6, 0.25));
-    color: var(--color-warning);
+    background: linear-gradient(135deg, var(--color-warning), #ed8936);
 }
 
 .method-example h5 {
