@@ -1,33 +1,22 @@
-// Основные данные о растениях
 let plantsData = [];
 let currentStep = 1;
-const userSelections = {
-    type: null,
-    season: null,
-    habitat: null,
-    features: []
-};
+const userSelections = { type: null, season: null, habitat: null, features: [] };
 
-// Загрузка данных из JSON
 async function loadPlantsData() {
     try {
         const response = await fetch('data.json');
         plantsData = await response.json();
-        console.log('✅ Данные успешно загружены:', plantsData.length, 'растений');
         initializeApp();
     } catch (error) {
-        console.error('❌ Ошибка загрузки данных:', error);
         plantsData = getDefaultPlantsData();
-        console.log('⚠️ Используются демо-данные');
         initializeApp();
     }
 }
 
-// Инициализация приложения
 function initializeApp() {
     setupTheme();
     setupNavigation();
-    createStaticEmojiBackground(); // Создаем фиксированные эмодзи на фоне
+    createStaticEmojiBackground();
     renderPlantCatalog();
     setupCatalogFilters();
     setupIdentifier();
@@ -35,7 +24,6 @@ function initializeApp() {
     initializeFooter();
     setupButtonListeners();
     
-    // Обработка хэша с фильтром
     if (window.location.hash.includes('catalog?filter=')) {
         const filter = window.location.hash.split('=')[1];
         showPage('catalog');
@@ -51,24 +39,15 @@ function initializeApp() {
     }
 }
 
-// Создание фиксированных анимированных эмодзи на фоне
 function createStaticEmojiBackground() {
     const container = document.querySelector('.emoji-background');
     if (!container) return;
     
-    // Очищаем контейнер
     container.innerHTML = '';
     
-    // Эмодзи растений
     const emojis = ['🌿', '🌱', '🍃', '🌾', '🍂', '🌻', '🌸', '🌼', '🌺', '🌷'];
-    
-    // Количество эмодзи на странице - меньше
     const emojiCount = window.innerWidth < 768 ? 8 : 12;
-    
-    // Минимальное расстояние между эмодзи (в процентах)
     const minDistance = 10;
-    
-    // Массив для хранения позиций эмодзи
     const placedEmojis = [];
     
     for (let i = 0; i < emojiCount; i++) {
@@ -80,12 +59,10 @@ function createStaticEmojiBackground() {
         let left, top;
         let isPositionValid = false;
         
-        // Пытаемся найти валидную позицию, не пересекающуюся с другими
         while (!isPositionValid && attempts < 100) {
             left = 5 + Math.random() * 90;
             top = 5 + Math.random() * 85;
             
-            // Проверяем расстояние до других эмодзи
             isPositionValid = true;
             for (const placed of placedEmojis) {
                 const distance = Math.sqrt(
@@ -99,100 +76,82 @@ function createStaticEmojiBackground() {
                 }
             }
             
-            // Дополнительная проверка для верхней и нижней частей экрана
-            // Чтобы эмодзи не попадали на важный контент
             if (isPositionValid) {
-                // Избегаем позиций по центру экрана (где обычно контент)
                 if (top > 25 && top < 75 && left > 30 && left < 70) {
-                    isPositionValid = Math.random() > 0.3; // 30% шанс разместить в центре
+                    isPositionValid = Math.random() > 0.3;
                 }
             }
             
             attempts++;
         }
         
-        // Если не нашли валидную позицию, используем крайние зоны
         if (!isPositionValid) {
             left = Math.random() > 0.5 ? 5 + Math.random() * 15 : 80 + Math.random() * 15;
             top = Math.random() > 0.5 ? 5 + Math.random() * 15 : 80 + Math.random() * 15;
         }
         
-        // Сохраняем позицию
         placedEmojis.push({ left, top });
         
-        // Применяем стили
         emoji.style.left = `${left}%`;
         emoji.style.top = `${top}%`;
         
-        // Размер больше (от 28px до 42px)
         const size = 28 + Math.random() * 14;
         emoji.style.fontSize = `${size}px`;
-        
-        // Случайная задержка анимации от 0 до 15 секунд
         emoji.style.animationDelay = `${Math.random() * 15}s`;
         
-        // Случайная длительность анимации от 8 до 15 секунд
         const duration = 8 + Math.random() * 7;
         emoji.style.animationDuration = `${duration}s`;
         
-        // Случайная прозрачность
-        const opacity = 0.05 + Math.random() * 0.07; // от 0.05 до 0.12
+        const opacity = 0.1 + Math.random() * 0.1;
         emoji.style.opacity = opacity;
-        
-        // У всех эмодзи одинаковая анимация вверх-вниз
         emoji.style.animationName = 'floatUpDown';
         
-        // Добавляем эмодзи в контейнер
         container.appendChild(emoji);
     }
 }
 
-// Тема
 function setupTheme() {
     const desktopThemeSwitch = document.getElementById('desktopThemeSwitch');
     const mobileThemeSwitch = document.getElementById('mobileThemeSwitch');
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
     
-    // Проверяем сохраненную тему
     const savedTheme = localStorage.getItem('theme') || 'light';
     document.documentElement.setAttribute('data-theme', savedTheme);
     
-    // Функция переключения темы
-    function toggleTheme() {
+    function toggleTheme(e) {
+        e.stopPropagation();
         const currentTheme = document.documentElement.getAttribute('data-theme');
         const newTheme = currentTheme === 'light' ? 'dark' : 'light';
         
         document.documentElement.setAttribute('data-theme', newTheme);
         localStorage.setItem('theme', newTheme);
         
-        // Анимация переключения
-        const activeSwitch = event?.currentTarget || desktopThemeSwitch;
+        const activeSwitch = e.currentTarget;
         activeSwitch.style.transform = 'scale(0.95)';
         setTimeout(() => {
             activeSwitch.style.transform = 'scale(1)';
         }, 150);
+        
+        createStaticEmojiBackground();
     }
     
-    // Обработчики для обоих переключателей
     desktopThemeSwitch.addEventListener('click', toggleTheme);
     mobileThemeSwitch.addEventListener('click', toggleTheme);
     
-    // Слушаем изменение системной темы
     prefersDark.addEventListener('change', (e) => {
         if (!localStorage.getItem('theme')) {
             document.documentElement.setAttribute('data-theme', e.matches ? 'dark' : 'light');
+            createStaticEmojiBackground();
         }
     });
 }
 
-// Навигация
 function setupNavigation() {
     const navLinks = document.querySelectorAll('.nav-link');
     const navToggle = document.getElementById('navToggle');
     const navMenu = document.getElementById('navMenu');
     const navOverlay = document.getElementById('navOverlay');
     
-    // Бургер-меню
     function toggleMenu() {
         navToggle.classList.toggle('active');
         navMenu.classList.toggle('active');
@@ -203,7 +162,6 @@ function setupNavigation() {
     navToggle.addEventListener('click', toggleMenu);
     navOverlay.addEventListener('click', toggleMenu);
     
-    // Закрытие меню при клике на ссылку
     navLinks.forEach(link => {
         link.addEventListener('click', () => {
             if (window.innerWidth <= 768) {
@@ -212,24 +170,20 @@ function setupNavigation() {
         });
     });
     
-    // Навигация по страницам
     navLinks.forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
             const targetId = link.getAttribute('href').substring(1);
             showPage(targetId);
             
-            // Обновляем активные ссылки
             navLinks.forEach(l => l.classList.remove('active'));
             link.classList.add('active');
         });
     });
     
-    // Обработка хэша в URL при загрузке
     const initialHash = window.location.hash.substring(1) || 'home';
     showPage(initialHash);
     
-    // Обновляем активную ссылку навигации
     const initialLink = document.querySelector(`.nav-link[href="#${initialHash}"]`);
     if (initialLink) {
         navLinks.forEach(l => l.classList.remove('active'));
@@ -237,9 +191,7 @@ function setupNavigation() {
     }
 }
 
-// Настройка кнопок
 function setupButtonListeners() {
-    // Кнопки на главной
     document.querySelector('.catalog-link').addEventListener('click', (e) => {
         e.preventDefault();
         showPage('catalog');
@@ -252,7 +204,6 @@ function setupButtonListeners() {
         updateActiveNav('identifier');
     });
     
-    // Кнопки быстрых действий
     document.querySelector('.critical-link').addEventListener('click', (e) => {
         e.preventDefault();
         showPage('catalog');
@@ -279,7 +230,6 @@ function setupButtonListeners() {
     });
 }
 
-// Обновить активную навигацию
 function updateActiveNav(pageId) {
     const navLinks = document.querySelectorAll('.nav-link');
     navLinks.forEach(link => {
@@ -290,30 +240,24 @@ function updateActiveNav(pageId) {
     });
 }
 
-// Показать выбранную страницу
 function showPage(pageId) {
-    // Скрыть все страницы
     document.querySelectorAll('.page').forEach(page => {
         page.classList.remove('active');
     });
     
-    // Показать выбранную страницу
     const targetPage = document.getElementById(pageId);
     if (targetPage) {
         targetPage.classList.add('active');
         window.location.hash = pageId;
         
-        // Если это каталог, обновляем его
         if (pageId === 'catalog') {
             renderPlantCatalog();
         }
         
-        // Прокрутка к верху страницы
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 }
 
-// Рендер каталога растений
 function renderPlantCatalog(filteredPlants = null) {
     const catalogContainer = document.getElementById('plantCatalog');
     const noResults = document.getElementById('noResults');
@@ -335,7 +279,6 @@ function renderPlantCatalog(filteredPlants = null) {
         catalogContainer.appendChild(plantCard);
     });
     
-    // Обработчики событий на карточки
     document.querySelectorAll('.plant-card').forEach(card => {
         card.addEventListener('click', function() {
             const plantId = this.dataset.id;
@@ -344,58 +287,31 @@ function renderPlantCatalog(filteredPlants = null) {
     });
 }
 
-// Создание карточки растения
 function createPlantCard(plant) {
     const card = document.createElement('div');
     card.className = 'plant-card';
     card.dataset.id = plant.id;
     
-    // Определяем цвет статуса опасности
     let dangerClass = '';
     let dangerText = '';
     
     switch(plant.dangerLevel) {
-        case 'critical':
-            dangerClass = 'badge-critical';
-            dangerText = 'Критично';
-            break;
-        case 'dangerous':
-            dangerClass = 'badge-dangerous';
-            dangerText = 'Опасно';
-            break;
-        case 'watch':
-            dangerClass = 'badge-watch';
-            dangerText = 'Наблюдать';
-            break;
-        case 'moderate':
-            dangerClass = 'badge-moderate';
-            dangerText = 'Умеренно';
-            break;
-        case 'low':
-            dangerClass = 'badge-low';
-            dangerText = 'Низкая';
-            break;
+        case 'critical': dangerClass = 'badge-critical'; dangerText = 'Критично'; break;
+        case 'dangerous': dangerClass = 'badge-dangerous'; dangerText = 'Опасно'; break;
+        case 'watch': dangerClass = 'badge-watch'; dangerText = 'Наблюдать'; break;
+        case 'moderate': dangerClass = 'badge-moderate'; dangerText = 'Умеренно'; break;
+        case 'low': dangerClass = 'badge-low'; dangerText = 'Низкая'; break;
     }
     
-    // Тип растения на русском
     let typeText = '';
     switch(plant.type) {
-        case 'tree':
-            typeText = 'Дерево';
-            break;
-        case 'shrub':
-            typeText = 'Кустарник';
-            break;
-        case 'herb':
-            typeText = 'Трава';
-            break;
-        case 'vine':
-            typeText = 'Лиана';
-            break;
+        case 'tree': typeText = 'Дерево'; break;
+        case 'shrub': typeText = 'Кустарник'; break;
+        case 'herb': typeText = 'Трава'; break;
+        case 'vine': typeText = 'Лиана'; break;
     }
     
-    // Подготовка изображения
-    const imageSrc = plant.image || 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="%23f1f5f9"/><text x="50" y="50" font-size="14" text-anchor="middle" dy=".3em" fill="%2394a3b8">' + (plant.emoji || '🌿') + '</text></svg>';
+    const imageSrc = plant.image || `data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="%23f1f5f9"/><text x="50" y="50" font-size="14" text-anchor="middle" dy=".3em" fill="%2394a3b8">${plant.emoji || '🌿'}</text></svg>`;
     
     card.innerHTML = `
         <div class="plant-image">
@@ -421,7 +337,6 @@ function createPlantCard(plant) {
         </div>
     `;
     
-    // Загрузка изображения
     const img = card.querySelector('img');
     const loading = card.querySelector('.image-loading');
     
@@ -438,7 +353,6 @@ function createPlantCard(plant) {
     return card;
 }
 
-// Получить текст места обитания
 function getHabitatText(habitat) {
     switch(habitat) {
         case 'wasteland': return 'Пустырь';
@@ -450,7 +364,6 @@ function getHabitatText(habitat) {
     }
 }
 
-// Показать детали растения
 function showPlantDetails(plantId) {
     const plant = plantsData.find(p => p.id === plantId);
     if (!plant) return;
@@ -458,66 +371,33 @@ function showPlantDetails(plantId) {
     const modal = document.getElementById('plantModal');
     const modalContent = document.getElementById('plantModalContent');
     
-    // Определяем цвет статуса опасности
     let dangerClass = '';
     let dangerText = '';
     
     switch(plant.dangerLevel) {
-        case 'critical':
-            dangerClass = 'badge-critical';
-            dangerText = 'Критическая опасность';
-            break;
-        case 'dangerous':
-            dangerClass = 'badge-dangerous';
-            dangerText = 'Опасный вид';
-            break;
-        case 'watch':
-            dangerClass = 'badge-watch';
-            dangerText = 'Требует наблюдения';
-            break;
-        case 'moderate':
-            dangerClass = 'badge-moderate';
-            dangerText = 'Умеренная опасность';
-            break;
-        case 'low':
-            dangerClass = 'badge-low';
-            dangerText = 'Низкая опасность';
-            break;
+        case 'critical': dangerClass = 'badge-critical'; dangerText = 'Критическая опасность'; break;
+        case 'dangerous': dangerClass = 'badge-dangerous'; dangerText = 'Опасный вид'; break;
+        case 'watch': dangerClass = 'badge-watch'; dangerText = 'Требует наблюдения'; break;
+        case 'moderate': dangerClass = 'badge-moderate'; dangerText = 'Умеренная опасность'; break;
+        case 'low': dangerClass = 'badge-low'; dangerText = 'Низкая опасность'; break;
     }
     
-    // Тип растения на русском
     let typeText = '';
     switch(plant.type) {
-        case 'tree':
-            typeText = 'Дерево';
-            break;
-        case 'shrub':
-            typeText = 'Кустарник';
-            break;
-        case 'herb':
-            typeText = 'Трава';
-            break;
-        case 'vine':
-            typeText = 'Лиана';
-            break;
+        case 'tree': typeText = 'Дерево'; break;
+        case 'shrub': typeText = 'Кустарник'; break;
+        case 'herb': typeText = 'Трава'; break;
+        case 'vine': typeText = 'Лиана'; break;
     }
     
-    // Подготовка изображения
-    const imageSrc = plant.image || 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="%23f1f5f9"/><text x="50" y="50" font-size="20" text-anchor="middle" dy=".3em" fill="%2394a3b8">' + (plant.emoji || '🌿') + '</text></svg>';
+    const imageSrc = plant.image || `data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="%23f1f5f9"/><text x="50" y="50" font-size="20" text-anchor="middle" dy=".3em" fill="%2394a3b8">${plant.emoji || '🌿'}</text></svg>`;
     
-    // Методы борьбы
     const methodsHTML = plant.controlMethods ? plant.controlMethods.map(method => {
         let methodClass = '';
         switch(method.type) {
-            case 'mechanical':
-                methodClass = 'mechanical';
-                break;
-            case 'chemical':
-                methodClass = 'chemical';
-                break;
-            case 'agro':
-                methodClass = 'agro';
-                break;
+            case 'mechanical': methodClass = 'mechanical'; break;
+            case 'chemical': methodClass = 'chemical'; break;
+            case 'agro': methodClass = 'agro'; break;
         }
         return `<span class="method-tag ${methodClass}">${method.name}</span>`;
     }).join('') : '';
@@ -577,21 +457,17 @@ function showPlantDetails(plantId) {
         </div>
     `;
     
-    // Показываем модальное окно
     modal.style.display = 'block';
     document.body.style.overflow = 'hidden';
     
-    // Загрузка изображения
     const img = modalContent.querySelector('img');
     img.onload = () => {
         img.style.opacity = '1';
     };
     
-    // Закрытие модального окна
     document.querySelector('.modal-close').addEventListener('click', closeModal);
     document.querySelector('.modal-overlay').addEventListener('click', closeModal);
     
-    // Закрытие по ESC
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') closeModal();
     });
@@ -603,7 +479,6 @@ function closeModal() {
     document.body.style.overflow = '';
 }
 
-// Фильтры каталога
 function setupCatalogFilters() {
     const searchInput = document.getElementById('plantSearch');
     const searchClear = document.getElementById('searchClear');
@@ -614,13 +489,11 @@ function setupCatalogFilters() {
         const activeFilter = document.querySelector('.filter-tag.active').dataset.filter;
         
         const filteredPlants = plantsData.filter(plant => {
-            // Поиск
             const matchesSearch = !searchTerm || 
                 plant.name.toLowerCase().includes(searchTerm) ||
                 plant.latinName.toLowerCase().includes(searchTerm) ||
                 plant.description.toLowerCase().includes(searchTerm);
             
-            // Фильтр
             let matchesFilter = false;
             if (activeFilter === 'all') {
                 matchesFilter = true;
@@ -635,11 +508,9 @@ function setupCatalogFilters() {
         
         renderPlantCatalog(filteredPlants);
         
-        // Показать/скрыть кнопку очистки поиска
         searchClear.style.display = searchTerm ? 'block' : 'none';
     }
     
-    // События
     searchInput.addEventListener('input', applyFilters);
     
     searchClear.addEventListener('click', () => {
@@ -658,7 +529,6 @@ function setupCatalogFilters() {
     });
 }
 
-// Определитель растений
 function setupIdentifier() {
     const nextButton = document.getElementById('nextStep');
     const prevButton = document.getElementById('prevStep');
@@ -667,7 +537,6 @@ function setupIdentifier() {
     const stepPanels = document.querySelectorAll('.step-panel');
     const optionCards = document.querySelectorAll('.option-card');
     
-    // Инициализация
     function initializeIdentifier() {
         currentStep = 1;
         userSelections.type = null;
@@ -680,7 +549,6 @@ function setupIdentifier() {
         resetOptionSelections();
     }
     
-    // Обновление индикатора прогресса
     function updateStepIndicator() {
         const progressSteps = document.querySelectorAll('.progress-step');
         progressFill.style.width = `${(currentStep - 1) * 25}%`;
@@ -698,7 +566,6 @@ function setupIdentifier() {
         document.getElementById(`step${currentStep}`).classList.add('active');
     }
     
-    // Обновление кнопок
     function updateButtons() {
         prevButton.disabled = currentStep === 1;
         
@@ -711,36 +578,27 @@ function setupIdentifier() {
         }
     }
     
-    // Проверка завершенности шага
     function isStepComplete(step) {
         switch(step) {
-            case 1:
-                return userSelections.type !== null;
-            case 2:
-                return userSelections.season !== null;
-            case 3:
-                return userSelections.habitat !== null;
-            case 4:
-                return userSelections.features.length > 0;
-            default:
-                return true;
+            case 1: return userSelections.type !== null;
+            case 2: return userSelections.season !== null;
+            case 3: return userSelections.habitat !== null;
+            case 4: return userSelections.features.length > 0;
+            default: return true;
         }
     }
     
-    // Сброс выбранных опций
     function resetOptionSelections() {
         optionCards.forEach(card => {
             card.classList.remove('selected');
         });
     }
     
-    // Обработка выбора опции
     optionCards.forEach(card => {
         card.addEventListener('click', function() {
             const step = currentStep;
             const value = this.dataset.value;
             
-            // Шаг 4 (множественный выбор)
             if (step === 4) {
                 this.classList.toggle('selected');
                 const index = userSelections.features.indexOf(value);
@@ -750,7 +608,6 @@ function setupIdentifier() {
                     userSelections.features.splice(index, 1);
                 }
             } else {
-                // Одиночный выбор
                 const currentSelected = document.querySelector(`#step${step} .option-card.selected`);
                 if (currentSelected) {
                     currentSelected.classList.remove('selected');
@@ -758,15 +615,9 @@ function setupIdentifier() {
                 this.classList.add('selected');
                 
                 switch(step) {
-                    case 1:
-                        userSelections.type = value;
-                        break;
-                    case 2:
-                        userSelections.season = value;
-                        break;
-                    case 3:
-                        userSelections.habitat = value;
-                        break;
+                    case 1: userSelections.type = value; break;
+                    case 2: userSelections.season = value; break;
+                    case 3: userSelections.habitat = value; break;
                 }
             }
             
@@ -774,7 +625,6 @@ function setupIdentifier() {
         });
     });
     
-    // Навигация по шагам
     nextButton.addEventListener('click', () => {
         if (currentStep < 5 && isStepComplete(currentStep)) {
             currentStep++;
@@ -795,22 +645,18 @@ function setupIdentifier() {
     
     resetButton.addEventListener('click', initializeIdentifier);
     
-    // Идентификация растений
     function identifyPlants() {
         const resultsContainer = document.getElementById('identificationResults');
         
-        // Расширенный алгоритм поиска с приоритетами
         const matchedPlants = plantsData.map(plant => {
             let score = 0;
             let matches = [];
             
-            // Проверка типа (высокий приоритет)
             if (userSelections.type && plant.type === userSelections.type) {
                 score += 3;
                 matches.push('type');
             }
             
-            // Проверка сезона цветения
             if (userSelections.season) {
                 const floweringSeasons = plant.floweringSeason.toLowerCase();
                 if (floweringSeasons.includes(userSelections.season)) {
@@ -823,13 +669,11 @@ function setupIdentifier() {
                 }
             }
             
-            // Проверка места обитания
             if (userSelections.habitat && plant.habitat === userSelections.habitat) {
                 score += 2;
                 matches.push('habitat');
             }
             
-            // Проверка особенностей
             if (userSelections.features.length > 0) {
                 const plantFeatures = plant.features || [];
                 const matchedFeatures = userSelections.features.filter(feature => 
@@ -842,9 +686,8 @@ function setupIdentifier() {
             return { plant, score, matches };
         }).filter(item => item.score > 0)
           .sort((a, b) => b.score - a.score)
-          .slice(0, 6); // Ограничиваем 6 результатами
+          .slice(0, 6);
         
-        // Если результаты есть, но их мало - добавляем дополнительные
         if (matchedPlants.length > 0 && matchedPlants.length < 3) {
             const additionalPlants = plantsData
                 .filter(p => !matchedPlants.some(mp => mp.plant.id === p.id))
@@ -854,7 +697,6 @@ function setupIdentifier() {
             matchedPlants.push(...additionalPlants);
         }
         
-        // Отображение результатов
         if (matchedPlants.length === 0) {
             resultsContainer.innerHTML = `
                 <div class="no-match-found">
@@ -909,7 +751,6 @@ function setupIdentifier() {
                 </div>
             `).join('');
             
-            // Загрузка изображений для карточек результатов
             resultsContainer.querySelectorAll('.plant-card img').forEach(img => {
                 img.onload = () => {
                     img.style.opacity = '1';
@@ -926,7 +767,6 @@ function setupIdentifier() {
                 };
             });
             
-            // Обработчики для карточек результатов
             resultsContainer.querySelectorAll('.plant-card').forEach(card => {
                 card.addEventListener('click', function() {
                     const plantId = this.dataset.id;
@@ -939,7 +779,6 @@ function setupIdentifier() {
     initializeIdentifier();
 }
 
-// Вспомогательные функции
 function getDangerClass(dangerLevel) {
     switch(dangerLevel) {
         case 'critical': return 'badge-critical';
@@ -972,7 +811,6 @@ function getTypeText(type) {
     }
 }
 
-// Вкладки "Что делать?"
 function setupActionTabs() {
     const tabButtons = document.querySelectorAll('.tab-btn');
     const tabContents = document.querySelectorAll('.tab-content');
@@ -981,11 +819,9 @@ function setupActionTabs() {
         button.addEventListener('click', function() {
             const tabId = this.dataset.tab;
             
-            // Обновляем активную вкладку
             tabButtons.forEach(btn => btn.classList.remove('active'));
             this.classList.add('active');
             
-            // Показываем соответствующий контент
             tabContents.forEach(content => {
                 content.classList.remove('active');
                 if (content.id === `${tabId}Content`) {
@@ -996,7 +832,6 @@ function setupActionTabs() {
     });
 }
 
-// Инициализация футера
 function initializeFooter() {
     const footerHTML = `
         <div class="footer-content">
@@ -1034,12 +869,10 @@ function initializeFooter() {
         </div>
     `;
     
-    // Вставляем футер в каждую страницу
     document.querySelectorAll('.site-footer').forEach(footer => {
         footer.innerHTML = footerHTML;
     });
     
-    // Обработка кликов по ссылкам в футере
     document.addEventListener('click', (e) => {
         if (e.target.matches('.footer-links a')) {
             e.preventDefault();
@@ -1048,7 +881,6 @@ function initializeFooter() {
                 const pageId = href.substring(1);
                 showPage(pageId);
                 
-                // Обновляем активную ссылку в навигации
                 document.querySelectorAll('.nav-link').forEach(link => {
                     link.classList.remove('active');
                     if (link.getAttribute('href') === href) {
@@ -1060,11 +892,8 @@ function initializeFooter() {
     });
 }
 
-// Загрузка данных при запуске
-document.addEventListener('DOMContentLoaded', loadPlantsData);
-
-// Резервные данные
 function getDefaultPlantsData() {
-    // Возвращаем пустой массив, так как у нас будет data.json с 35 растениями
     return [];
 }
+
+document.addEventListener('DOMContentLoaded', loadPlantsData);

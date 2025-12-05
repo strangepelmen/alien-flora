@@ -12,10 +12,8 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌿</text></svg>">
 </head>
 <body>
-    <!-- Фоновые анимированные эмодзи -->
     <div class="emoji-background"></div>
     
-    <!-- Навигация -->
     <nav class="navbar">
         <div class="nav-container">
             <a href="#home" class="nav-logo">
@@ -51,7 +49,6 @@
                 </li>
             </ul>
             
-            <!-- Десктопный переключатель темы -->
             <div class="desktop-theme-switch">
                 <button class="theme-switch" id="desktopThemeSwitch" aria-label="Переключить тему">
                     <div class="switch-handle">
@@ -63,7 +60,6 @@
         </div>
     </nav>
 
-    <!-- Главная страница -->
     <section id="home" class="page active">
         <div class="page-container">
             <div class="hero">
@@ -167,11 +163,9 @@
                 </div>
             </div>
         </div>
-        <!-- Футер для главной страницы -->
         <footer class="site-footer"></footer>
     </section>
 
-    <!-- Каталог -->
     <section id="catalog" class="page">
         <div class="page-container">
             <div class="page-header">
@@ -220,9 +214,7 @@
                 </div>
             </div>
             
-            <div id="plantCatalog" class="catalog-grid">
-                <!-- Динамически заполняется через JavaScript -->
-            </div>
+            <div id="plantCatalog" class="catalog-grid"></div>
             
             <div id="noResults" class="no-results" style="display: none;">
                 <div class="no-results-icon">🌱</div>
@@ -230,11 +222,9 @@
                 <p>Попробуйте изменить параметры поиска или фильтрации</p>
             </div>
         </div>
-        <!-- Футер для каталога -->
         <footer class="site-footer"></footer>
     </section>
 
-    <!-- Определитель -->
     <section id="identifier" class="page">
         <div class="page-container">
             <div class="page-header">
@@ -277,7 +267,6 @@
                 </div>
                 
                 <div class="identifier-content">
-                    <!-- Шаг 1 -->
                     <div class="step-panel active" id="step1">
                         <div class="step-header">
                             <h3>Тип растения</h3>
@@ -315,7 +304,6 @@
                         </div>
                     </div>
                     
-                    <!-- Шаг 2 -->
                     <div class="step-panel" id="step2">
                         <div class="step-header">
                             <h3>Время года</h3>
@@ -353,7 +341,6 @@
                         </div>
                     </div>
                     
-                    <!-- Шаг 3 -->
                     <div class="step-panel" id="step3">
                         <div class="step-header">
                             <h3>Место обнаружения</h3>
@@ -391,7 +378,6 @@
                         </div>
                     </div>
                     
-                    <!-- Шаг 4 -->
                     <div class="step-panel" id="step4">
                         <div class="step-header">
                             <h3>Ключевые признаки</h3>
@@ -437,15 +423,12 @@
                         </div>
                     </div>
                     
-                    <!-- Шаг 5 -->
                     <div class="step-panel" id="step5">
                         <div class="step-header">
                             <h3>Результаты определения</h3>
                             <p>Вот растения, которые соответствуют вашим критериям:</p>
                         </div>
-                        <div id="identificationResults" class="results-container">
-                            <!-- Результаты будут загружены здесь -->
-                        </div>
+                        <div id="identificationResults" class="results-container"></div>
                     </div>
                 </div>
                 
@@ -465,11 +448,9 @@
                 </div>
             </div>
         </div>
-        <!-- Футер для определителя -->
         <footer class="site-footer"></footer>
     </section>
 
-    <!-- Что делать? -->
     <section id="action" class="page">
         <div class="page-container">
             <div class="page-header">
@@ -504,7 +485,6 @@
             </div>
             
             <div class="scenarios-content">
-                <!-- На дачном участке -->
                 <div class="tab-content active" id="gardenContent">
                     <div class="scenario-header">
                         <h3>Борьба на собственном участке</h3>
@@ -554,7 +534,7 @@
                         <div class="method-examples">
                             <div class="method-example">
                                 <div class="method-icon mechanical">
-                                    <i class="fas fa-shovel"></i>
+                                    <i class="fas fa-tools"></i>
                                 </div>
                                 <h5>Механический метод</h5>
                                 <p>Выкапывание растений с корнями с помощью лопаты и граблей.</p>
@@ -577,7 +557,6 @@
                     </div>
                 </div>
                 
-                <!-- Во дворе дома -->
                 <div class="tab-content" id="yardContent">
                     <div class="scenario-header">
                         <h3>Действия во дворе многоквартирного дома</h3>
@@ -650,7 +629,6 @@
                     </div>
                 </div>
                 
-                <!-- В парке или заказнике -->
                 <div class="tab-content" id="parkContent">
                     <div class="scenario-header">
                         <h3>Обнаружение в природной зоне</h3>
@@ -698,7 +676,6 @@
                     </div>
                 </div>
                 
-                <!-- Чем заменить -->
                 <div class="tab-content" id="replaceContent">
                     <div class="scenario-header">
                         <h3>Безопасные альтернативы</h3>
@@ -733,8 +710,12 @@
                             </div>
                             <div class="alternative-content">
                                 <h4>Вместо золотарника канадского</h4>
-                                <p><strong>Нивяник обыкновенный</strong> — белые ромашки, цветут всё лето, привлекают полез
-                                                                    </div>
+                                <p><strong>Нивяник обыкновенный</strong> — белые ромашки, цветут всё лето, привлекают полезных насекомых.</p>
+                                <div class="alternative-features">
+                                    <span class="feature-tag">Местный вид</span>
+                                    <span class="feature-tag">Долгое цветение</span>
+                                    <span class="feature-tag">Привлекает опылителей</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -751,20 +732,16 @@
                 </div>
             </div>
         </div>
-        <!-- Футер для страницы "Что делать?" -->
         <footer class="site-footer"></footer>
     </section>
 
-    <!-- Модальное окно -->
     <div id="plantModal" class="modal">
         <div class="modal-overlay"></div>
         <div class="modal-container">
             <button class="modal-close" aria-label="Закрыть">
                 <i class="fas fa-times"></i>
             </button>
-            <div id="plantModalContent">
-                <!-- Динамически заполняется через JavaScript -->
-            </div>
+            <div id="plantModalContent"></div>
         </div>
     </div>
 
